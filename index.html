@@ -1,0 +1,142 @@
+<html>
+<head>
+	<link rel="stylesheet" href="highlight/styles/monokai_sublime.css">
+	<script src="highlight/highlight.pack.js"></script>
+
+	<style>
+		@font-face {
+		    font-family: Monoid;
+		    src: url(Monoid/Monoid-Regular.ttf);
+		}
+		@font-face {
+		    font-family: Monoid;
+		    font-weight: bold;
+		    src: url(Monoid/Monoid-Bold.ttf);
+		}
+		@font-face {
+		    font-family: Monoid;
+		    font-style: italic;
+		    src: url(Monoid/Monoid-Italic.ttf);
+		}
+
+		html, body{
+			margin:0px;
+			padding:0px;
+			width:100%;
+			height:100%;
+
+		}
+
+		*{
+			user-select:none;
+			-webkit-user-select:none;
+		}
+
+		#editor{
+			font-family:"Monoid";
+			padding:50px;
+			font-size:0;
+			display:flex;
+
+			width:100%;
+			height:100%;
+
+			box-sizing:border-box;
+
+			-moz-tab-size: 4;
+		    -o-tab-size: 4;
+		    tab-size: 4;
+
+		    
+		}
+
+		#ruler { 
+			font-family:"Monoid";
+			display:inline-block;
+			position:absolute;
+			visibility: hidden;
+			white-space: pre;
+			top:-666px;
+			left:-666px;
+		}
+
+		.tab{
+			position:relative;
+		}
+		.tab:before{
+			content:"";
+			position:absolute;
+			top:0px;
+			left:0px;
+			height:100%;
+			border-left:2px solid rgba(200,200,200,0.1);
+		}
+
+		#content{
+			position:relative;
+			cursor:text;
+			flex:1;
+		}
+		#content *, #textarea{
+			user-select:all;
+			-webkit-user-select:all;
+		}
+		#content *::selection{
+			background-color:rgba(0,0,0,0)
+		}
+
+		#textarea{
+			position:absolute;
+			opacity:0;
+			width:0;
+			height:0;
+			top:-666px;
+			left:-666px;
+		}
+
+		#caret{
+			position:absolute;
+			width:1px;
+			height:1.3em;
+			/*margin-top:1px;*/
+			background:#eee;
+		}
+		.blink{
+			animation: blink 1s linear infinite;
+		}
+		@keyframes blink{
+			40% { opacity:1 }
+			50% { opacity:0 }
+			90% { opacity:0 }
+			100%{ opacity:1 }
+		}
+
+		.line{
+			position:relative;
+			white-space: pre;
+			z-index:666;
+		}
+
+		.line, #caret, #ruler{
+			font-size:12px;
+		}
+
+		#selection{
+			position:absolute;
+			top:0px;
+			left:0px;
+		}
+		.selection{
+			position:absolute;
+			z-index:0;
+			background-color:#555;
+			padding:1px;
+			border-radius:2px;
+			margin-top:-1px
+		}
+	</style>
+</head>
+<body>
+	<script src="index.js"></script>
+</body>
+</html>
