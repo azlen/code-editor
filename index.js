@@ -10,7 +10,7 @@ function splice(str, index, count, add){
 	return str.slice(0, index) + (add || "") + str.slice(index + count)
 }
 
-var code = ['function hello(name) {','\tconsole.log("Hello",name)','}','','function hello(name) {','\tconsole.log("Hello",name)','}']
+var code = ['function test(name) {','\tconsole.log("Hello",name)','}']
 
 var editor = document.createElement('div')
 editor.id = 'editor'
