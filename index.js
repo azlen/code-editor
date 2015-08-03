@@ -113,10 +113,8 @@ textarea.id = 'textarea'
 textarea.wrap = 'off'
 textarea.spellcheck = false
 
-var continuewithinput;
-textarea.onkeydown = function(e){
-	continuewithinput = [37,38,39,40,8,13,9].indexOf(e.keyCode) == -1 ? true : false
 
+textarea.onkeydown = function(e){
 	if(e.keyCode == 37){ // left
 		caretpos.x -= 1
 		if(caretpos.x < 0 && caretpos.y > 0){
@@ -147,28 +145,28 @@ textarea.onkeydown = function(e){
 			code.splice(caretpos.y,1)
 			caretpos.y -= 1
 		}
-		render()
 	}
+
+	positioncaret()
+	render()
+}
+textarea.oninput = function(e){
+	deleteselection()
+	
 	if(e.keyCode == 13){ // enter
 		code.splice(caretpos.y+1, 0, code[caretpos.y].substr(caretpos.x))
 		code[caretpos.y] = code[caretpos.y].substr(0, caretpos.x)
 		caretpos.y += 1
 		caretpos.x = 0
-		render()
 	}
 	if(e.keyCode == 9){ // tab
 		code[caretpos.y] = splice(code[caretpos.y], caretpos.x, 0, '	')
 		caretpos.x += 1
-		render()
 	}
 	caretpos.y = Math.max(Math.min(caretpos.y,code.length-1),0)
-	positioncaret()
-	if(!continuewithinput){
-		e.preventDefault()
-	}
-}
-textarea.oninput = function(e){
-	if(continuewithinput){
+
+
+	if([37,38,39,40,8,13,9].indexOf(e.keyCode) == -1 ? true : false){
 		var value = this.value.split('\n')
 		code[caretpos.y] = splice(code[caretpos.y], caretpos.x, 0, value[0])
 		if(value.length > 1){
@@ -180,10 +178,11 @@ textarea.oninput = function(e){
 		}else{
 			caretpos.x += value[0].length
 		}
-		positioncaret()
 		this.value = ''
-		render()
-	}	
+	}
+
+	positioncaret()
+	render()
 }
 editor.appendChild(textarea)
 
@@ -226,7 +225,9 @@ function deleteselection(){
 
 		caretpos.x = selection.start.x
 		caretpos.y = selection.start.y
-		window.getSelection().collapse(0)
+		selection.end.x = selection.start.x
+		selection.end.y = selection.start.y
+		//window.getSelection().collapse(0)
 		if(document.activeElement != textarea){
 			textarea.focus()
 		}
@@ -309,7 +310,7 @@ setInterval(function(){
 		var endParent   =   end.parentNode.classList.contains('line') ?   end.parentNode :   (end.parentNode.parentNode.classList.contains('line') ?   end.parentNode.parentNode :   end.parentNode.parentNode.parentNode)
 
 		if(startParent.classList == undefined || !endParent.classList == undefined){
-			deleteselection()
+			//deleteselection()
 			return
 		}
 
